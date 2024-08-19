@@ -34,30 +34,30 @@ public class InGameHudMixin {
 			float split_scale = config.split_scale;
 			boolean shadowed = config.shadow;
 
-			int global_x = config.global_x_pos;
-			int global_y = config.global_y_pos;
-			int temp_x = config.temp_x_pos;
-			int temp_y = config.temp_y_pos;
-			int split_x = ZortModClient.SPLIT_X;
-			int split_y = ZortModClient.SPLIT_Y;
+			float global_x = config.global_x_pos;
+			float global_y = config.global_y_pos;
+			float temp_x = config.temp_x_pos;
+			float temp_y = config.temp_y_pos;
+			float split_x = ZortModClient.SPLIT_X;
+			float split_y = ZortModClient.SPLIT_Y;
 
 
 			int global = ZortModClient.GLOBAL;
 			int temp = ZortModClient.TEMP;
 
 			if (global > 0 && config.global_enabled) {
-				this.renderText(context, renderer, String.valueOf(global), global_x, global_y, textColor, scale, shadowed);
+				this.renderText(context, renderer, String.valueOf(global), global_x, global_y, textColor, scale, shadowed, false);
 			}
 			if (ZortModClient.PLAYER != null && config.temp_enabled && temp > 0 && !ZortModClient.PLAYER.isOnGround()) {
-				this.renderText(context, renderer, String.valueOf(temp), temp_x, temp_y, textColor, scale, shadowed);
+				this.renderText(context, renderer, String.valueOf(temp), temp_x, temp_y, textColor, scale, shadowed, ZortModClient.CONFIG.temp_centered);
 			}
 			if(ZortModClient.PLAYER != null && ZortModClient.SPLIT_TIMER > 0) {
-				if (ZortModClient.SPLIT_DISPLAY > 0) {
-					this.renderText(context, renderer, "+" + String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.RED.getRGB(), split_scale, true);
-				} else if (ZortModClient.SPLIT_DISPLAY < 0) {
-					this.renderText(context, renderer,  String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.GREEN.getRGB(), split_scale, true);
+				if (ZortModClient.SPLIT_COLOR == Color.RED) {
+					this.renderText(context, renderer, "+" + String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.RED.getRGB(), split_scale, true, true);
+				} else if (ZortModClient.SPLIT_COLOR == Color.GREEN) {
+					this.renderText(context, renderer,  String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.GREEN.getRGB(), split_scale, true, true);
 				} else {
-					this.renderText(context, renderer, " 0", split_x, split_y, Color.WHITE.getRGB(), split_scale, true);
+					this.renderText(context, renderer, String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.WHITE.getRGB(), split_scale, true, true);
 				}
 			}
 		}
@@ -65,18 +65,15 @@ public class InGameHudMixin {
 
 
 	@Unique
-	private void renderText(DrawContext context, TextRenderer textRenderer, String text, int x, int y, int color, float scale, boolean shadowed) {
-		if (scale != 1.0f) {
+	private void renderText(DrawContext context, TextRenderer textRenderer, String text, float x, float y, int color, float scale, boolean shadowed, boolean centralised) {
 			MatrixStack matrixStack = context.getMatrices();
 			matrixStack.push();
 			matrixStack.translate(x, y, 0);
+			if (centralised) {
+				matrixStack.translate(-3*scale*text.length(), 0, 0);
+			}
 			matrixStack.scale(scale, scale, scale);
-			matrixStack.translate(-x, -y, 0);
-			context.drawText(textRenderer, text, x, y, color, shadowed);
+			context.drawText(textRenderer, text, 0, 0, color, shadowed);
 			matrixStack.pop();
-		}
-		else {
-			context.drawText(textRenderer, text, x, y, color, shadowed);
-		}
 	}
 }

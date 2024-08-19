@@ -3,12 +3,12 @@
 	"id": "zortmod",
 	"version": "${version}",
 	"name": "ZortMod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A must have for any serious parkour speedrunner.",
 	"authors": [
-		"Me!"
+		"Zorty"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
+		"homepage": "https://www.youtube.com/@Zorty420",
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",

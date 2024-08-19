@@ -9,12 +9,12 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class ZortModConfig implements ConfigData{
 
     public boolean global_enabled = true;
-    public int global_x_pos = 4;
-    public int global_y_pos = 4;
+    public float global_x_pos = 4;
+    public float global_y_pos = 4;
 
     public boolean temp_enabled = true;
-    public int temp_x_pos = 4;
-    public int temp_y_pos = 10;
+    public float temp_x_pos = 4;
+    public float temp_y_pos = 10;
     public boolean temp_centered = true;
 
     @ConfigEntry.ColorPicker

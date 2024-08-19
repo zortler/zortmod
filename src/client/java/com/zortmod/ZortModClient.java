@@ -25,6 +25,7 @@ import net.minecraft.util.math.Vec3d;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -60,9 +61,10 @@ public class ZortModClient implements ClientModInitializer {
 	static ArrayList<Integer> PB_SPLITS = new ArrayList<Integer>();
 	static ArrayList<Integer> BEST_SPLITS = new ArrayList<Integer>();
 
-	public static int SPLIT_X;
-	public static int SPLIT_Y;
+	public static float SPLIT_X;
+	public static float SPLIT_Y;
 	public static int SPLIT_DISPLAY;
+	public static Color SPLIT_COLOR = Color.WHITE;
 
 	public Vec3d START_POS = null;
 	public Vec3d END_POS = null;
@@ -84,7 +86,7 @@ public class ZortModClient implements ClientModInitializer {
 			PLAYER = MC.player;
 			setSplitPos(MC);
 			if(CONFIG.temp_centered) {
-				setTempPos(MC);
+				CONFIG.temp_x_pos = getCenterx(MC);
 			}
 			if(PLAYER != null) {
 				Vec3d pos = PLAYER.getPos();
@@ -114,18 +116,23 @@ public class ZortModClient implements ClientModInitializer {
 
 								TEMP_SPLITS.set(i, TIMER);
 								SPLIT_TIMER = CONFIG.split_duration;
+								SPLIT_COLOR = Color.WHITE;
 
 								if (CONFIG.sob_over_pb) {
 									if (BEST_SPLITS.get(i) == 0) {
 										SPLIT_DISPLAY = TIMER;
 									} else {
 										SPLIT_DISPLAY = TIMER - BEST_SPLITS.get(i);
+										if (SPLIT_DISPLAY > 0) SPLIT_COLOR = Color.RED;
+										else if (SPLIT_DISPLAY < 0) SPLIT_COLOR = Color.GREEN;
 									}
 								} else {
 									if (PB_SPLITS.get(i) == 0) {
 										SPLIT_DISPLAY = TIMER;
 									} else {
 										SPLIT_DISPLAY = TIMER - PB_SPLITS.get(i);
+										if (SPLIT_DISPLAY > 0) SPLIT_COLOR = Color.RED;
+										else if (SPLIT_DISPLAY < 0) SPLIT_COLOR = Color.GREEN;
 									}
 								}
 								if (BEST_SPLITS.get(i) == 0 || TIMER < BEST_SPLITS.get(i)) {
@@ -144,6 +151,7 @@ public class ZortModClient implements ClientModInitializer {
 						FINISH_TIME = TIMER;
 						SPLIT_TIMER = CONFIG.split_duration;
 						SPLIT_DISPLAY = FINISH_TIME;
+						SPLIT_COLOR = Color.WHITE;
 
 						if (PB == 0 || FINISH_TIME < PB) {
 							PB = FINISH_TIME;
@@ -287,7 +295,7 @@ public class ZortModClient implements ClientModInitializer {
 
 
 	}
-	public static void setTempPos(MinecraftClient client) {
+	public static float getCenterx(MinecraftClient client) {
 		Window window = client.getWindow();
 		int width = window.getWidth();
 		int height = window.getHeight();
@@ -295,11 +303,9 @@ public class ZortModClient implements ClientModInitializer {
 		if(guiscale == 0) {
 			guiscale = (int)Math.min(Math.floor((double) width/320), Math.floor((double) height/240));
 		}
-		int x = (int) Math.round((double)width/(2*guiscale));
-		int y = (int) Math.round((double)height/(2*guiscale));
-		CONFIG.temp_x_pos = x - (int)Math.round(CONFIG.scale*3);
-		CONFIG.temp_y_pos = y + 5;
-	}
+		float x = ((float) width)/(2*guiscale);
+        return x;
+    }
 	public static void setSplitPos(MinecraftClient client) {
 		Window window = client.getWindow();
 		int width = window.getWidth();
@@ -308,10 +314,8 @@ public class ZortModClient implements ClientModInitializer {
 		if(guiscale == 0) {
 			guiscale = (int)Math.min(Math.floor((double) width/320), Math.floor((double) height/240));
 		}
-		int x = (int) Math.round((double)width/(2*guiscale));
-		int y = (int) Math.round((double)height/(guiscale));
-		SPLIT_X = x - (int)Math.round(CONFIG.split_scale*5.5);
-		SPLIT_Y = y - (int)(40 + CONFIG.split_scale*10);
+		SPLIT_X = getCenterx(client);
+		SPLIT_Y = ((float) height)/guiscale - 35 - CONFIG.split_scale*7;
 	}
 	public static void resetSplits() {
 		for(int i = 0; i < SPLIT_COUNT; i++) {

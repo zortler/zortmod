@@ -1,0 +1,16 @@
+{
+  "text.autoconfig.zortmod.option.global_enabled": "Enable Global Counter",
+  "text.autoconfig.zortmod.option.global_x_pos": "x-Position of Global Counter",
+  "text.autoconfig.zortmod.option.global_y_pos": "y-Position of Global Counter",
+  "text.autoconfig.zortmod.option.temp_enabled": "Enable Local Counter",
+  "text.autoconfig.zortmod.option.temp_x_pos": "x-Position of Local Counter",
+  "text.autoconfig.zortmod.option.temp_y_pos": "y-Position of Local Counter",
+  "text.autoconfig.zortmod.option.temp_centered": "Center Local Counter horizontally",
+  "text.autoconfig.zortmod.option.color": "Color of Counters",
+  "text.autoconfig.zortmod.option.opacity": "Opacity of Counters",
+  "text.autoconfig.zortmod.option.shadow": "Enable Shadow for Counters",
+  "text.autoconfig.zortmod.option.scale": "Scale of Counters",
+  "text.autoconfig.zortmod.option.sob_over_pb": "Use SumOfBest-Mode over PB-Mode",
+  "text.autoconfig.zortmod.option.split_duration": "Duration of Splits being displayed",
+  "text.autoconfig.zortmod.option.split_scale": "Scale of splits being displayed"
+}
