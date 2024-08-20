@@ -9,9 +9,9 @@
 	],
 	"contact": {
 		"homepage": "https://www.youtube.com/@Zorty420",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/zortler/zortmod"
 	},
-	"license": "CC0-1.0",
+	"license": "your mom lmao",
 	"icon": "assets/zortmod/icon.png",
 	"environment": "*",
 	"entrypoints": {
