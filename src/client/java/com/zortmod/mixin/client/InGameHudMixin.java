@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
@@ -21,7 +22,7 @@ import java.awt.*;
 public class InGameHudMixin {
 
 	@Inject(at = @At("TAIL"), method = "render")
-	public void render(DrawContext context, float tickDelta, CallbackInfo ci) {
+	public void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
 
 		ZortModConfig config = ZortModClient.CONFIG;
 		MinecraftClient mc = ZortModClient.MC;
@@ -31,15 +32,12 @@ public class InGameHudMixin {
 			TextRenderer renderer = mc.textRenderer;
 			int textColor = config.color | ((config.opacity & 0xFF) << 24);
 			float scale = config.scale;
-			float split_scale = config.split_scale;
 			boolean shadowed = config.shadow;
 
 			float global_x = config.global_x_pos;
 			float global_y = config.global_y_pos;
 			float temp_x = config.temp_x_pos;
 			float temp_y = config.temp_y_pos;
-			float split_x = ZortModClient.SPLIT_X;
-			float split_y = ZortModClient.SPLIT_Y;
 
 
 			int global = ZortModClient.GLOBAL;
@@ -51,14 +49,15 @@ public class InGameHudMixin {
 			if (ZortModClient.PLAYER != null && config.temp_enabled && temp > 0 && !ZortModClient.PLAYER.isOnGround()) {
 				this.renderText(context, renderer, String.valueOf(temp), temp_x, temp_y, textColor, scale, shadowed, ZortModClient.CONFIG.temp_centered);
 			}
-			if(ZortModClient.PLAYER != null && ZortModClient.SPLIT_TIMER > 0) {
+			if(ZortModClient.PLAYER != null && ZortModClient.SPLIT_TIMER) {
 				if (ZortModClient.SPLIT_COLOR == Color.RED) {
-					this.renderText(context, renderer, "+" + String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.RED.getRGB(), split_scale, true, true);
+					ZortModClient.PLAYER.sendMessage(Text.literal("§7<§6zm§7> split: §c+" + String.valueOf(ZortModClient.SPLIT_DISPLAY) + " §7[" + String.valueOf(ZortModClient.TIMER - 1) + "]"), false);
 				} else if (ZortModClient.SPLIT_COLOR == Color.GREEN) {
-					this.renderText(context, renderer,  String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.GREEN.getRGB(), split_scale, true, true);
+					ZortModClient.PLAYER.sendMessage(Text.literal("§7<§6zm§7> split: §a" + String.valueOf(ZortModClient.SPLIT_DISPLAY) + " §7[" + String.valueOf(ZortModClient.TIMER - 1) + "]"), false);
 				} else {
-					this.renderText(context, renderer, String.valueOf(ZortModClient.SPLIT_DISPLAY), split_x, split_y, Color.WHITE.getRGB(), split_scale, true, true);
+					ZortModClient.PLAYER.sendMessage(Text.literal("§7<§6zm§7> split: " + String.valueOf(ZortModClient.SPLIT_DISPLAY) + " §7[" + String.valueOf(ZortModClient.TIMER - 1) + "]"), false);
 				}
+				ZortModClient.SPLIT_TIMER = false;
 			}
 		}
 	}

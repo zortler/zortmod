@@ -27,8 +27,7 @@ public class ZortModConfig implements ConfigData{
     public float scale = 1.0f;
 
     public boolean sob_over_pb = true;
-    public int split_duration = 30;
-    public float split_scale = 1.0f;
+
 
 
 }

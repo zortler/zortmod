@@ -12,5 +12,6 @@
   "text.autoconfig.zortmod.option.scale": "Scale of Counters",
   "text.autoconfig.zortmod.option.sob_over_pb": "Use SumOfBest-Mode over PB-Mode",
   "text.autoconfig.zortmod.option.split_duration": "Duration of Splits being displayed",
-  "text.autoconfig.zortmod.option.split_scale": "Scale of splits being displayed"
+  "text.autoconfig.zortmod.option.split_scale": "Scale of splits being displayed",
+  "text.autoconfig.zortmod.title": "ZortMod Settings"
 }
